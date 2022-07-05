@@ -4,7 +4,7 @@ initMoedas = 0;
 initHpInimigo = 100;
 
 valAtaque = 5;
-valTentativas = 1;
+valTentativas = 3;
 valMoedas = 0;
 valHpInimigo = 100;
 valDado = 0;
