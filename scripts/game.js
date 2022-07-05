@@ -1,8 +1,8 @@
 import Mago from "./model/heroi/mago.js";
 import Monstro from "./model/monstro/monstro.js";
 
-var qtdTentativas = 100;
-var qtdTentativasAtual = 100;
+var qtdTentativas = 10;
+var qtdTentativasAtual = 10;
 var valorDado = 10;
 var qtdMoedas = 0;
 var valUpgradeAtk = 5;
