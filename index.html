@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script defer src="script.js"></script>
+    <script defer src="scripts/game.js" type="module"></script>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/reset.css">
     <title>Document</title>
@@ -12,24 +12,32 @@
 <body>
     <main>
         <div class="campoBatalha">
-            <div class="inimigo">
-                <span class="nomeInimigo">Guerreiro de Gelo</span>
-                <img src="img/barbaro.png" alt="inimigo" class="imagemInimigo">
-                <span class="levelInimigo">Lv. 1</span>
-                <span class="lblHpInimigo"><span class="hpInimigo"></span> <span class="coracao"><3</span></span>
+            <div class="monstro">
+                <span class="nomeMonstro">Guerreiro de Gelo</span>
+                <img src="img/barbaro.png" alt="Monstro" class="imagemMonstro">
+                <span class="levelMonstro">Lv. <span class="nivelMonstro"></span></span>
+                <span class="lblHpMonstro"><span class="hpMonstro"></span> <span class="coracao"><3</span></span>
             </div>
             <div class="mensagem mensagemInicio">Clique no Dado para Iniciar!</div>
             <div class="hero">
                 <div class="infos">
                     <div class="msgTentativas">Tentativas: <span class="tentativas"></span></div>
-                    <div class="moedas"><span class="qtdMoedas"></span>&nbsp;<img src="img/moeda.png" alt="" class="imgMoeda"></div>
+                    <div class="moedas"><span class="qtdMoedas"></span>&nbsp;<img src="img/moeda.png" alt="" class="imgMoeda" /></div>
                 </div>
                 <img src="img/mago.png" alt="mago" class="imagemHero">
-                <span class="levelHero">Lv. 1</span>
+                <span class="levelHero">Lv. <span class="nivelHeroi"></span></span>
                 <span class="lblAtk"><span class="atkHero"></span> <img src="img/espada.png" alt="" class="espada"></span>
                 <div class="dados">
                     <div class="dado">10</div>
                 </div>
+            </div>
+        </div>
+        <div class="loja">
+            <div class="itemCompra upgradeAtk">
+                <span class="nome">Aumenta o Ataque - <span class="qtdMoedaAtaque"></span> <img src="img/moeda.png" alt="" class="imgMoeda" /></span>
+            </div>
+            <div class="itemCompra upgradeTentativas">
+                <span class="nome">Aumenta Tentativas - <span class="qtdMoedaTentativa"></span> <img src="img/moeda.png" alt="" class="imgMoeda" /></span>
             </div>
         </div>
     </main>

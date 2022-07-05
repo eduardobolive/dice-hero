@@ -1,6 +1,6 @@
 main{
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     width: 100%;
     background-size: cover;
     min-height: 100vh;
@@ -19,7 +19,28 @@ main{
     border: 2px solid #ddd;
 }
 
-.inimigo, .hero{
+.loja{
+    margin-left: 20px;
+    padding: 0 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    background-color: rgba(255, 255, 255, 0.8);
+    width: 25vw;
+    height: 90vh;
+    border: 2px solid #ddd;
+}
+
+.itemCompra{
+    margin-top: 10px;
+    width: 100%;
+    font-size: 8pt;
+    padding: 20px 10px;
+    border: 3px solid #ddd;
+    background-color: #00dddd;
+}
+
+.monstro, .hero{
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -28,7 +49,7 @@ main{
     height: 45%;
 }
 
-.imagemInimigo, .imagemHero{
+.imagemMonstro, .imagemHero{
     max-height: 50%;
 }
 
@@ -37,7 +58,7 @@ main{
     height: 50%;
 }
 
-.inimigo span{
+.monstro span{
     font-size: 1em;
 }
 
