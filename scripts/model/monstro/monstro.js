@@ -1,6 +1,12 @@
 export default class Monstro {
   constructor(nivel, classe) {
-    this.nome = getNomeAleatorio(classe);
+    if (classe === undefined) {
+      this.classe = getRandomClasse();
+    } else {
+      this.classe = classe;
+    }
+
+    this.nome = getNomeAleatorio(this.classe);
     this.nivel = nivel;
     this.classe = classe;
     this.hp = +(50 * nivel * (1 + getRandomPercent(0, 20))).toFixed(2);
@@ -29,7 +35,7 @@ function getNomeAleatorio(classe) {
     "Ozob",
     "Ruprest",
     "Edsert",
-    "Cigado",
+    "Cigano",
     "Azaghal",
     "Alan",
   ];
@@ -43,4 +49,10 @@ function getNomeAleatorio(classe) {
   }
 
   return nome + " " + preposicao + " " + classe;
+}
+
+function getRandomClasse() {
+  var listaNomes = ["Agua", "Fogo", "Natureza"];
+
+  return listaNomes[Math.floor(Math.random() * listaNomes.length)];
 }

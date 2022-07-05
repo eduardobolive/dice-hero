@@ -19,7 +19,7 @@ main{
     border: 2px solid #ddd;
 }
 
-.inimigo, .hero{
+.monstro, .hero{
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -28,7 +28,7 @@ main{
     height: 45%;
 }
 
-.imagemInimigo, .imagemHero{
+.imagemMonstro, .imagemHero{
     max-height: 50%;
 }
 
@@ -37,7 +37,7 @@ main{
     height: 50%;
 }
 
-.inimigo span{
+.monstro span{
     font-size: 1em;
 }
 
