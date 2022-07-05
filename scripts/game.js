@@ -1,7 +1,7 @@
 import Mago from "./model/heroi/mago.js";
 import Monstro from "./model/monstro/monstro.js";
 
-var qtdTentativas = 3;
+var qtdTentativas = 10;
 var valorDado = 10;
 var qtdMoedas = 0;
 
@@ -15,12 +15,18 @@ var nomeMonstro = document.querySelector(".nomeMonstro");
 var nivelMonstro = document.querySelector(".nivelMonstro");
 var nivelHeroi = document.querySelector(".nivelHeroi");
 
+var nivelMonstroBatalha = 1;
 var player = new Mago("Eduardo", "M", "Agua");
-var monstro = new Monstro(1);
+var monstro;
 
-inicioGame();
+inicioGame(false);
 
-function inicioGame() {
+function inicioGame(novoNivel) {
+  if (novoNivel) {
+    nivelMonstroBatalha++;
+  }
+  qtdTentativas = 10;
+  monstro = new Monstro(nivelMonstroBatalha);
   atualizaBatalha();
 }
 
@@ -53,7 +59,22 @@ dado.addEventListener("click", () => {
     mensagem.classList.add("mensagemJogando");
     mensagem.classList.remove("mensagemInicio");
 
+    if (valorDado > 15) {
+      chanceMoeda(valorDado);
+    }
+
     atualizaBatalha();
+
+    if (monstro.hp <= 0) {
+      chanceMoeda(20);
+      alert("Monstro derrotado!");
+      inicioGame(true);
+    }
+
+    if (qtdTentativas <= 0) {
+      alert("Perdeu! Melhore seus status e tente novamente!");
+      inicioGame(false);
+    }
   }
 });
 
@@ -77,13 +98,14 @@ function calculaMultDano(valorDado) {
   }
 }
 
-// function chanceMoeda(valorDado) {
-//   if (valorDado === 20) {
-//     valMoedas += getRandomInt(0, 2);
-//   }
-//   if (valorDado > 15) {
-//     if (getRandomInt(0, 10) > 7) {
-//       valMoedas++;
-//     }
-//   }
-// }
+function chanceMoeda(valorDado) {
+  if (valorDado === 20) {
+    qtdMoedas += getRandomInt(0, 2);
+  }
+  if (valorDado > 15) {
+    if (getRandomInt(0, 10) > 7) {
+      qtdMoedas++;
+      console.log(qtdMoedas);
+    }
+  }
+}
