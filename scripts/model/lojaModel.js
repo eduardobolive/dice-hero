@@ -1,4 +1,5 @@
 import Dinheiro from "./dinheiroModel.js";
+import TentativaModel from "./tentativaModel.js";
 
 export default class LojaModel {
   static ataquesComprados = 0;
@@ -28,6 +29,8 @@ export default class LojaModel {
   static compraTentativa() {
     if (this.valorUpgradeTentativa <= Dinheiro.moedas) {
       this.tentativasCompradas++;
+      TentativaModel.tentativaAdd();
+      TentativaModel.tentativasRestantes++;
       Dinheiro.moedasRemove(this.valorUpgradeTentativa);
       this._calculoValorUpgrade("tentativa");
       return true;
