@@ -136,3 +136,8 @@ span .coracao{
 .dado{
     cursor: pointer;
 }
+
+.descricaoCardLoja {
+    font-family: 'Courier New', Courier, monospace;
+    padding-top: 5px;
+}
