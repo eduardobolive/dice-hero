@@ -73,6 +73,8 @@ span .coracao{
 .imgMoeda{
     width: 15px;
     height: 15px;
+    margin-left: 2px;
+    padding-bottom: 1px;
 }
 
 .dados{
@@ -109,6 +111,7 @@ span .coracao{
     display: flex;
     justify-content: center;
     align-items: flex-end;
+    margin-top: 10px;
 }
 
 .mensagem{

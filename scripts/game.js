@@ -1,15 +1,16 @@
 import Mago from "./model/heroi/mago.js";
 import Monstro from "./model/monstro/monstro.js";
+import Dinheiro from "./model/dinheiroModel.js";
+import PO from "./pageObjects.js";
 
 var qtdTentativas = 10;
 var qtdTentativasAtual = 10;
 var valorDado = 10;
-var qtdMoedas = 0;
+var qtdMoedas = Dinheiro.moedas;
 
 var dado = document.querySelector(".dado");
 var tentativas = document.querySelector(".tentativas");
 var mensagem = document.querySelector(".mensagem");
-var moedas = document.querySelector(".qtdMoedas");
 var ataque = document.querySelector(".atkHero");
 var hpMonstro = document.querySelector(".hpMonstro");
 var nomeMonstro = document.querySelector(".nomeMonstro");
@@ -35,7 +36,7 @@ function atualizaBatalha() {
   // Comum
   tentativas.innerHTML = qtdTentativasAtual;
   dado.innerHTML = valorDado;
-  moedas.innerHTML = qtdMoedas;
+  PO.lojaCarteiraQtdMoedas.innerHTML = Dinheiro.moedas;
 
   //Herói
   ataque.innerHTML = player.ataque;
@@ -100,12 +101,16 @@ function calculaMultDano(valorDado) {
 }
 
 function chanceMoeda(valorDado) {
+  console.log("chance moeda");
+  var moedasGanhas = 0;
   if (valorDado === 20) {
-    qtdMoedas += getRandomInt(0, 2);
+    moedasGanhas = getRandomInt(0, 2);
   }
   if (valorDado > 15) {
     if (getRandomInt(0, 10) > 7) {
-      qtdMoedas++;
+      moedasGanhas = 1;
     }
   }
+  console.log("Moedas ganhas: " + moedasGanhas);
+  Dinheiro.moedaAdd(moedasGanhas);
 }
