@@ -8,15 +8,6 @@ var qtdTentativasAtual = 10;
 var valorDado = 10;
 var qtdMoedas = Dinheiro.moedas;
 
-var dado = document.querySelector(".dado");
-var tentativas = document.querySelector(".tentativas");
-var mensagem = document.querySelector(".mensagem");
-var ataque = document.querySelector(".atkHero");
-var hpMonstro = document.querySelector(".hpMonstro");
-var nomeMonstro = document.querySelector(".nomeMonstro");
-var nivelMonstro = document.querySelector(".nivelMonstro");
-var nivelHeroi = document.querySelector(".nivelHeroi");
-
 var nivelMonstroBatalha = 1;
 var player = new Mago("Eduardo", "M", "Agua");
 var monstro;
@@ -34,21 +25,21 @@ function inicioGame(novoNivel) {
 
 function atualizaBatalha() {
   // Comum
-  tentativas.innerHTML = qtdTentativasAtual;
-  dado.innerHTML = valorDado;
+  PO.campoTentativas.innerHTML = qtdTentativasAtual;
+  PO.campoDado.innerHTML = valorDado;
   PO.lojaCarteiraQtdMoedas.innerHTML = Dinheiro.moedas;
 
   //Herói
-  ataque.innerHTML = player.ataque;
-  nivelHeroi.innerHTML = player.nivel;
+  PO.campoAtaque.innerHTML = player.ataque;
+  PO.campoNivelHeroi.innerHTML = player.nivel;
 
   //Monstro
-  nomeMonstro.innerHTML = monstro.nome;
-  nivelMonstro.innerHTML = monstro.nivel;
-  hpMonstro.innerHTML = monstro.hp;
+  PO.campoNomeMonstro.innerHTML = monstro.nome;
+  PO.campoNivelMonstro.innerHTML = monstro.nivel;
+  PO.campoHpMonstro.innerHTML = monstro.hp;
 }
 
-dado.addEventListener("click", () => {
+PO.campoDado.addEventListener("click", () => {
   if (qtdTentativasAtual > 0) {
     valorDado = getRandomInt(0, 20);
     var multiplicadorDano = calculaMultDano(valorDado);
@@ -57,9 +48,9 @@ dado.addEventListener("click", () => {
 
     monstro.hp -= danoRodada;
     qtdTentativasAtual--;
-    mensagem.innerHTML = "Dano causado: " + danoRodada + ".";
-    mensagem.classList.add("mensagemJogando");
-    mensagem.classList.remove("mensagemInicio");
+    PO.campoMensagem.innerHTML = "Dano causado: " + danoRodada + ".";
+    PO.campoMensagem.classList.add("mensagemJogando");
+    PO.campoMensagem.classList.remove("mensagemInicio");
 
     if (valorDado > 15) {
       chanceMoeda(valorDado);
