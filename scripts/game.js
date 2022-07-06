@@ -3,7 +3,7 @@ import Monstro from "./model/monstro/monstro.js";
 import Dinheiro from "./model/dinheiroModel.js";
 import PO from "./pageObjects.js";
 import TentativaModel from "./model/tentativaModel.js";
-import DadoModel from "./model/DadoModel.js";
+import DadoModel from "./model/dadoModel.js";
 import Util from "./util.js";
 
 var valorDado = 10;
