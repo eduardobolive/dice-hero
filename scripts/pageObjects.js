@@ -1,9 +1,13 @@
 export default class PO {
   //loja
   static lojaAtaqueValor = document.querySelector(".telaLojaAtaqueValor");
-  static lojaUpgradeValor = document.querySelector(".telaLojaTentativaValor");
+  static lojaTentativaValor = document.querySelector(".telaLojaTentativaValor");
+  static lojaDadoMagicoValor = document.querySelector(
+    ".telaLojaDadoMagicoValor"
+  );
   static lojaCardAtaque = document.querySelector(".telaLojaCardAtaque");
   static lojaCardTentativa = document.querySelector(".telaLojaCardTentativa");
+  static lojaCardDadoMagico = document.querySelector(".telaLojaCardDadoMagico");
   static lojaCarteiraQtdMoedas = document.querySelector(".telaLojaQtdMoedas");
 
   //campo batalha

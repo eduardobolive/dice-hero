@@ -14,3 +14,8 @@ PO.lojaCardTentativa.addEventListener("click", () => {
   console.log(LojaModel.compraTentativa());
   AtualizaGame.atualiza();
 });
+
+PO.lojaCardDadoMagico.addEventListener("click", () => {
+  console.log(LojaModel.compraDadoMagico());
+  AtualizaGame.atualiza();
+});

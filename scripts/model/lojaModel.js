@@ -1,3 +1,4 @@
+import DadoModel from "./dadoModel.js";
 import Dinheiro from "./dinheiroModel.js";
 import TentativaModel from "./tentativaModel.js";
 
@@ -6,6 +7,7 @@ export default class LojaModel {
   static tentativasCompradas = 0;
   static valorUpgradeAtaque = 5;
   static valorUpgradeTentativa = 5;
+  static valorUpgradeDadoMagico = 7;
 
   static _calculoValorUpgrade(upgrade) {
     if (upgrade === "ataque") {
@@ -33,6 +35,17 @@ export default class LojaModel {
       TentativaModel.tentativasRestantes++;
       Dinheiro.moedasRemove(this.valorUpgradeTentativa);
       this._calculoValorUpgrade("tentativa");
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  static compraDadoMagico() {
+    if (this.valorUpgradeDadoMagico <= Dinheiro.moedas) {
+      var dadoMagico = new DadoModel(15, 20, 3);
+      //adicionar dado na lista de dados;
+      Dinheiro.moedasRemove(this.valorUpgradeDadoMagico);
       return true;
     } else {
       return false;

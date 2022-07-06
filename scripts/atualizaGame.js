@@ -7,7 +7,8 @@ export default class AtualizaGame {
   static atualiza() {
     //loja
     PO.lojaAtaqueValor.innerHTML = LojaModel.valorUpgradeAtaque;
-    PO.lojaUpgradeValor.innerHTML = LojaModel.valorUpgradeTentativa;
+    PO.lojaTentativaValor.innerHTML = LojaModel.valorUpgradeTentativa;
+    PO.lojaDadoMagicoValor.innerHTML = LojaModel.valorUpgradeDadoMagico;
     PO.lojaCarteiraQtdMoedas.innerHTML = Dinheiro.moedas;
     PO.campoTentativas.innerHTML = TentativaModel.tentativasRestantes;
   }
