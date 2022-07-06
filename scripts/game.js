@@ -2,11 +2,9 @@ import Mago from "./model/heroi/mago.js";
 import Monstro from "./model/monstro/monstro.js";
 import Dinheiro from "./model/dinheiroModel.js";
 import PO from "./pageObjects.js";
+import TentativaModel from "./model/tentativaModel.js";
 
-var qtdTentativas = 10;
-var qtdTentativasAtual = 10;
 var valorDado = 10;
-var qtdMoedas = Dinheiro.moedas;
 
 var nivelMonstroBatalha = 1;
 var player = new Mago("Eduardo", "M", "Agua");
@@ -18,14 +16,14 @@ function inicioGame(novoNivel) {
   if (novoNivel) {
     nivelMonstroBatalha++;
   }
-  qtdTentativasAtual = qtdTentativas;
+  TentativaModel.resetTentativas();
   monstro = new Monstro(nivelMonstroBatalha);
   atualizaBatalha();
 }
 
 function atualizaBatalha() {
   // Comum
-  PO.campoTentativas.innerHTML = qtdTentativasAtual;
+  PO.campoTentativas.innerHTML = TentativaModel.tentativasRestantes;
   PO.campoDado.innerHTML = valorDado;
   PO.lojaCarteiraQtdMoedas.innerHTML = Dinheiro.moedas;
 
@@ -40,14 +38,14 @@ function atualizaBatalha() {
 }
 
 PO.campoDado.addEventListener("click", () => {
-  if (qtdTentativasAtual > 0) {
+  if (TentativaModel.temTentativas()) {
     valorDado = getRandomInt(0, 20);
     var multiplicadorDano = calculaMultDano(valorDado);
 
     var danoRodada = player.ataque * multiplicadorDano;
 
     monstro.hp -= danoRodada;
-    qtdTentativasAtual--;
+    TentativaModel.menos1();
     PO.campoMensagem.innerHTML = "Dano causado: " + danoRodada + ".";
     PO.campoMensagem.classList.add("mensagemJogando");
     PO.campoMensagem.classList.remove("mensagemInicio");
@@ -64,7 +62,7 @@ PO.campoDado.addEventListener("click", () => {
       inicioGame(true);
     }
 
-    if (qtdTentativasAtual <= 0) {
+    if (!TentativaModel.temTentativas()) {
       alert("Perdeu! Melhore seus status e tente novamente!");
       inicioGame(false);
     }
