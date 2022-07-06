@@ -3,6 +3,8 @@ import Monstro from "./model/monstro/monstro.js";
 import Dinheiro from "./model/dinheiroModel.js";
 import PO from "./pageObjects.js";
 import TentativaModel from "./model/tentativaModel.js";
+import DadoModel from "./model/DadoModel.js";
+import Util from "./util.js";
 
 var valorDado = 10;
 
@@ -39,7 +41,7 @@ function atualizaBatalha() {
 
 PO.campoDado.addEventListener("click", () => {
   if (TentativaModel.temTentativas()) {
-    valorDado = getRandomInt(0, 20);
+    valorDado = DadoModel.rolarDado();
     var multiplicadorDano = calculaMultDano(valorDado);
 
     var danoRodada = player.ataque * multiplicadorDano;
@@ -69,12 +71,6 @@ PO.campoDado.addEventListener("click", () => {
   }
 });
 
-function getRandomInt(min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min)) + min;
-}
-
 function calculaMultDano(valorDado) {
   if (valorDado === 20) {
     return 2.0;
@@ -93,10 +89,10 @@ function chanceMoeda(valorDado) {
   console.log("chance moeda");
   var moedasGanhas = 0;
   if (valorDado === 20) {
-    moedasGanhas = getRandomInt(0, 2);
+    moedasGanhas = Util.getRandomInt(0, 2);
   }
   if (valorDado > 15) {
-    if (getRandomInt(0, 10) > 7) {
+    if (Util.getRandomInt(0, 10) > 7) {
       moedasGanhas = 1;
     }
   }
