@@ -1,97 +1,87 @@
 import Mago from "./model/heroi/mago.js";
 import Monstro from "./model/monstro/monstro.js";
+import Dinheiro from "./model/dinheiroModel.js";
+import PO from "./pageObjects.js";
+import TentativaModel from "./model/tentativaModel.js";
+import DadoModel from "./model/dadoModel.js";
+import Util from "./util.js";
+import AtualizaGame from "./atualizaGame.js";
+import LojaModel from "./model/lojaModel.js";
 
-var qtdTentativas = 10;
-var qtdTentativasAtual = 10;
 var valorDado = 10;
-var qtdMoedas = 0;
-var valUpgradeAtk = 5;
-var valUpgradeTentativas = 5;
-
-var dado = document.querySelector(".dado");
-var tentativas = document.querySelector(".tentativas");
-var mensagem = document.querySelector(".mensagem");
-var moedas = document.querySelector(".qtdMoedas");
-var ataque = document.querySelector(".atkHero");
-var hpMonstro = document.querySelector(".hpMonstro");
-var nomeMonstro = document.querySelector(".nomeMonstro");
-var nivelMonstro = document.querySelector(".nivelMonstro");
-var nivelHeroi = document.querySelector(".nivelHeroi");
-var upgradeAtk = document.querySelector(".upgradeAtk");
-var upgradeTentativas = document.querySelector(".upgradeTentativas");
-var qtdMoedaAtaque = document.querySelector(".qtdMoedaAtaque");
-var qtdMoedaTentativa = document.querySelector(".qtdMoedaTentativa");
 
 var nivelMonstroBatalha = 1;
-var player = new Mago("Eduardo", "M", "Agua");
 var monstro;
+var player;
+
+window.onload = function () {};
 
 inicioGame(false);
 
 function inicioGame(novoNivel) {
+  if (localStorage.getItem("player") === null) {
+    player = new Mago("Eduardo", "M", "Agua");
+    localStorage.setItem("player", JSON.stringify(player));
+  }
+  if (localStorage.getItem("tentativas") === null) {
+    localStorage.setItem("tentativas", TentativaModel.tentativas);
+  } else {
+    TentativaModel.tentativas = localStorage.getItem("tentativas");
+    TentativaModel.tentativasRestantes = localStorage.getItem("tentativas");
+    AtualizaGame.atualiza();
+  }
+
+  if (localStorage.getItem("moedas") === null) {
+    localStorage.setItem("moedas", Dinheiro.moedas);
+  } else {
+    Dinheiro.moedas = localStorage.getItem("moedas");
+    Dinheiro.moedas = localStorage.getItem("moedas");
+    AtualizaGame.atualiza();
+  }
+
+  if (localStorage.getItem("loja") === null) {
+    localStorage.setItem("loja", LojaModel.toJson());
+  } else {
+    LojaModel.atualizaLocal();
+  }
+
   if (novoNivel) {
     nivelMonstroBatalha++;
   }
-  qtdTentativasAtual = qtdTentativas;
+  TentativaModel.resetTentativas();
   monstro = new Monstro(nivelMonstroBatalha);
   atualizaBatalha();
+  AtualizaGame.atualiza();
 }
 
 function atualizaBatalha() {
-  // Comum
-  tentativas.innerHTML = qtdTentativasAtual;
-  dado.innerHTML = valorDado;
-  moedas.innerHTML = qtdMoedas;
-  qtdMoedaAtaque.innerHTML = valUpgradeAtk;
-  qtdMoedaTentativa.innerHTML = valUpgradeTentativas;
-
-  //Herói
-  ataque.innerHTML = player.ataque;
-  nivelHeroi.innerHTML = player.nivel;
+  PO.campoDado.innerHTML = valorDado;
 
   //Monstro
-  nomeMonstro.innerHTML = monstro.nome;
-  nivelMonstro.innerHTML = monstro.nivel;
-  hpMonstro.innerHTML = monstro.hp;
+  PO.campoNomeMonstro.innerHTML = monstro.nome;
+  PO.campoNivelMonstro.innerHTML = monstro.nivel;
+  PO.campoHpMonstro.innerHTML = monstro.hp;
 }
 
-upgradeAtk.addEventListener("click", () => {
-  if (qtdMoedas >= valUpgradeAtk) {
-    player.ataque++;
-    qtdMoedas -= valUpgradeAtk;
-    valUpgradeAtk += 5;
-    atualizaBatalha();
-  }
-});
-
-upgradeTentativas.addEventListener("click", () => {
-  if (qtdMoedas >= valUpgradeTentativas) {
-    qtdTentativas++;
-    qtdTentativasAtual++;
-    qtdMoedas -= valUpgradeTentativas;
-    valUpgradeTentativas += 5;
-    atualizaBatalha();
-  }
-});
-
-dado.addEventListener("click", () => {
-  if (qtdTentativasAtual > 0) {
-    valorDado = getRandomInt(0, 20);
+PO.campoDado.addEventListener("click", () => {
+  if (TentativaModel.temTentativas()) {
+    valorDado = DadoModel.rolarDado();
     var multiplicadorDano = calculaMultDano(valorDado);
 
-    var danoRodada = player.ataque * multiplicadorDano;
+    var danoRodada = Mago.getAtk() * multiplicadorDano;
 
     monstro.hp -= danoRodada;
-    qtdTentativasAtual--;
-    mensagem.innerHTML = "Dano causado: " + danoRodada + ".";
-    mensagem.classList.add("mensagemJogando");
-    mensagem.classList.remove("mensagemInicio");
+    TentativaModel.menos1();
+    PO.campoMensagem.innerHTML = "Dano causado: " + danoRodada + ".";
+    PO.campoMensagem.classList.add("mensagemJogando");
+    PO.campoMensagem.classList.remove("mensagemInicio");
 
     if (valorDado > 15) {
       chanceMoeda(valorDado);
     }
 
     atualizaBatalha();
+    AtualizaGame.atualiza();
 
     if (monstro.hp <= 0) {
       chanceMoeda(20);
@@ -99,18 +89,12 @@ dado.addEventListener("click", () => {
       inicioGame(true);
     }
 
-    if (qtdTentativasAtual <= 0) {
+    if (!TentativaModel.temTentativas()) {
       alert("Perdeu! Melhore seus status e tente novamente!");
       inicioGame(false);
     }
   }
 });
-
-function getRandomInt(min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min)) + min;
-}
 
 function calculaMultDano(valorDado) {
   if (valorDado === 20) {
@@ -127,12 +111,14 @@ function calculaMultDano(valorDado) {
 }
 
 function chanceMoeda(valorDado) {
+  var moedasGanhas = 0;
   if (valorDado === 20) {
-    qtdMoedas += getRandomInt(0, 2);
+    moedasGanhas = Util.getRandomInt(0, 2);
   }
   if (valorDado > 15) {
-    if (getRandomInt(0, 10) > 7) {
-      qtdMoedas++;
+    if (Util.getRandomInt(0, 10) > 7) {
+      moedasGanhas = 1;
     }
   }
+  Dinheiro.moedaAdd(moedasGanhas);
 }
