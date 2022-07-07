@@ -45,8 +45,15 @@ function inicioGame(novoNivel) {
     LojaModel.atualizaLocal();
   }
 
+  if (localStorage.getItem("nivelMonstro") === null) {
+    localStorage.setItem("nivelMonstro", 1);
+  } else {
+    nivelMonstroBatalha = localStorage.getItem("nivelMonstro");
+  }
+
   if (novoNivel) {
     nivelMonstroBatalha++;
+    localStorage.setItem("nivelMonstro", nivelMonstroBatalha);
   }
   TentativaModel.resetTentativas();
   monstro = new Monstro(nivelMonstroBatalha);
