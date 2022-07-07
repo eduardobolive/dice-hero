@@ -3,6 +3,7 @@ export default class TentativaModel {
   static tentativasRestantes = this.tentativas;
   static tentativaAdd = () => {
     this.tentativas++;
+    localStorage.setItem("tentativas", this.tentativas);
   };
   static menos1 = () => {
     this.tentativasRestantes--;

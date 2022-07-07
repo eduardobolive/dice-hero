@@ -5,33 +5,57 @@ import PO from "./pageObjects.js";
 import TentativaModel from "./model/tentativaModel.js";
 import DadoModel from "./model/dadoModel.js";
 import Util from "./util.js";
+import AtualizaGame from "./atualizaGame.js";
+import LojaModel from "./model/lojaModel.js";
 
 var valorDado = 10;
 
 var nivelMonstroBatalha = 1;
-var player = new Mago("Eduardo", "M", "Agua");
 var monstro;
+var player;
+
+window.onload = function () {};
 
 inicioGame(false);
 
 function inicioGame(novoNivel) {
+  if (localStorage.getItem("player") === null) {
+    player = new Mago("Eduardo", "M", "Agua");
+    localStorage.setItem("player", JSON.stringify(player));
+  }
+  if (localStorage.getItem("tentativas") === null) {
+    localStorage.setItem("tentativas", TentativaModel.tentativas);
+  } else {
+    TentativaModel.tentativas = localStorage.getItem("tentativas");
+    TentativaModel.tentativasRestantes = localStorage.getItem("tentativas");
+    AtualizaGame.atualiza();
+  }
+
+  if (localStorage.getItem("moedas") === null) {
+    localStorage.setItem("moedas", Dinheiro.moedas);
+  } else {
+    Dinheiro.moedas = localStorage.getItem("moedas");
+    Dinheiro.moedas = localStorage.getItem("moedas");
+    AtualizaGame.atualiza();
+  }
+
+  if (localStorage.getItem("loja") === null) {
+    localStorage.setItem("loja", LojaModel.toJson());
+  } else {
+    LojaModel.atualizaLocal();
+  }
+
   if (novoNivel) {
     nivelMonstroBatalha++;
   }
   TentativaModel.resetTentativas();
   monstro = new Monstro(nivelMonstroBatalha);
   atualizaBatalha();
+  AtualizaGame.atualiza();
 }
 
 function atualizaBatalha() {
-  // Comum
-  PO.campoTentativas.innerHTML = TentativaModel.tentativasRestantes;
   PO.campoDado.innerHTML = valorDado;
-  PO.lojaCarteiraQtdMoedas.innerHTML = Dinheiro.moedas;
-
-  //Herói
-  PO.campoAtaque.innerHTML = player.ataque;
-  PO.campoNivelHeroi.innerHTML = player.nivel;
 
   //Monstro
   PO.campoNomeMonstro.innerHTML = monstro.nome;
@@ -44,7 +68,7 @@ PO.campoDado.addEventListener("click", () => {
     valorDado = DadoModel.rolarDado();
     var multiplicadorDano = calculaMultDano(valorDado);
 
-    var danoRodada = player.ataque * multiplicadorDano;
+    var danoRodada = Mago.getAtk() * multiplicadorDano;
 
     monstro.hp -= danoRodada;
     TentativaModel.menos1();
@@ -57,6 +81,7 @@ PO.campoDado.addEventListener("click", () => {
     }
 
     atualizaBatalha();
+    AtualizaGame.atualiza();
 
     if (monstro.hp <= 0) {
       chanceMoeda(20);
@@ -86,7 +111,6 @@ function calculaMultDano(valorDado) {
 }
 
 function chanceMoeda(valorDado) {
-  console.log("chance moeda");
   var moedasGanhas = 0;
   if (valorDado === 20) {
     moedasGanhas = Util.getRandomInt(0, 2);
@@ -96,6 +120,5 @@ function chanceMoeda(valorDado) {
       moedasGanhas = 1;
     }
   }
-  console.log("Moedas ganhas: " + moedasGanhas);
   Dinheiro.moedaAdd(moedasGanhas);
 }
