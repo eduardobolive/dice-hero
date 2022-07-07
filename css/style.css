@@ -154,3 +154,21 @@ span .coracao{
     font-family: 'Courier New', Courier, monospace;
     padding-top: 5px;
 }
+
+@media only screen and (max-width: 600px) {
+    .campoBatalha {
+        width: 99vw;
+        height: 70vh;
+    }
+    main{
+        display: flex;
+        flex-direction: column;
+    }
+
+    .loja{
+        width: 99vw;
+        margin: 0;
+        margin-top: 10px;
+    }
+
+  }
