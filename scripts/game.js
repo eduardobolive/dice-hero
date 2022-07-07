@@ -67,7 +67,7 @@ function atualizaBatalha() {
   //Monstro
   PO.campoNomeMonstro.innerHTML = monstro.nome;
   PO.campoNivelMonstro.innerHTML = monstro.nivel;
-  PO.campoHpMonstro.innerHTML = monstro.hp;
+  PO.campoHpMonstro.innerHTML = monstro.hp.toFixed(0);
 }
 
 PO.campoDado.addEventListener("click", () => {
@@ -79,7 +79,7 @@ PO.campoDado.addEventListener("click", () => {
 
     monstro.hp -= danoRodada;
     TentativaModel.menos1();
-    PO.campoMensagem.innerHTML = "Dano causado: " + danoRodada + ".";
+    PO.campoMensagem.innerHTML = "Dano causado: " + danoRodada.toFixed(0) + ".";
     PO.campoMensagem.classList.add("mensagemJogando");
     PO.campoMensagem.classList.remove("mensagemInicio");
 
